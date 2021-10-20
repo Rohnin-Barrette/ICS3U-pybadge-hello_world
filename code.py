@@ -248,7 +248,7 @@ def game_scene():
                     lasers[laser_number].move(constants.OFF_SCREEN_X,
                                                 constants.OFF_SCREEN_Y)
         # redraw Sprite 
-        game.render_sprites([ship] + [alien])
+        game.render_sprites(lasers + [ship] + [alien])
         game.tick() # wait until refresh rate finishes
   
         
