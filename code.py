@@ -140,6 +140,15 @@ def menu_scene():
 def game_scene():
     # function is the main game game_scene
     
+    def show_alien():
+        # this function takes an alien off screen and moves it on screen 
+        for alien_number in range(len(aliens)):
+            if aliens[alien_number].x < 0: 
+                aliens[alien_number].move(random.randint(0 + constants.SPRITE_SIZE,
+                                                            constants.SCREEN_X - constants.SPRITE_SIZE), 
+                                        constants.OFF_TOP_SCREEN)
+                break
+    
     #image banks for CircutPython
     image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
     image_bank_sprites = stage.Bank.from_bmp16("space_aliens.bmp")
@@ -170,6 +179,16 @@ def game_scene():
     alien = stage.Sprite(image_bank_sprites, 9,
                     int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
                     16)
+    
+    # create a list of lasers for when we shoot
+    aliens = [] 
+    for alien_number in range(constants.TOTAL_NUMBER_OF_ALIENS):
+        a_single_alien = stage.Sprite(image_bank_sprites, 9,
+                                        constants.OFF_SCREEN_X,
+                                        constants.OFF_SCREEN_Y)
+        aliens.append(a_single_alien)
+        # place 1 alien on the screen 
+        show_alien()
     
     # create a list of lasers for when we shoot
     lasers = []
@@ -247,8 +266,22 @@ def game_scene():
                 if lasers[laser_number].y < constants.OFF_TOP_SCREEN:
                     lasers[laser_number].move(constants.OFF_SCREEN_X,
                                                 constants.OFF_SCREEN_Y)
+                                                
+            
+
+        # each frame move the aliens down,that are on the screen
+        for alien_number in range(len(aliens)):
+            if aliens[alien_number].x > 0: 
+                aliens[alien_number].move(aliens[alien_number].x,
+                                            aliens[alien_number].y +
+                                            constants.ALIEN_SPEED)
+                if aliens[alien_number].y > constants.SCREEN_Y:
+                    aliens[alien_number].move(constants.OFF_SCREEN_X,
+                                                constants.OFF_SCREEN_Y)
+                    show_alien()
+    
         # redraw Sprite 
-        game.render_sprites(lasers + [ship] + [alien])
+        game.render_sprites(aliens + lasers + [ship] + [alien])
         game.tick() # wait until refresh rate finishes
   
         
