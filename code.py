@@ -176,10 +176,6 @@ def game_scene():
     # a sprite that will be updated every frame
     ship = stage.Sprite(image_bank_sprites, 5, 75, constants.SCREEN_Y - (2 * constants.SPRITE_SIZE))
     
-    alien = stage.Sprite(image_bank_sprites, 9,
-                    int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
-                    16)
-    
     # create a list of lasers for when we shoot
     aliens = [] 
     for alien_number in range(constants.TOTAL_NUMBER_OF_ALIENS):
@@ -188,7 +184,7 @@ def game_scene():
                                         constants.OFF_SCREEN_Y)
         aliens.append(a_single_alien)
         # place 1 alien on the screen 
-        show_alien()
+    show_alien()
     
     # create a list of lasers for when we shoot
     lasers = []
@@ -202,7 +198,7 @@ def game_scene():
     #   and set the frame rate to 60fps
     game = stage.Stage(ugame.display, constants.FPS)
     # set the layers of all sprites, items show up in order
-    game.layers = lasers + [ship] + [alien] + [background]
+    game.layers = lasers + [ship] + aliens + [background]
     # render all sprites
     #   most likely you will only render the background once per game scene
     game.render_block()
@@ -281,7 +277,7 @@ def game_scene():
                     show_alien()
     
         # redraw Sprite 
-        game.render_sprites(aliens + lasers + [ship] + [alien])
+        game.render_sprites(aliens + lasers + [ship])
         game.tick() # wait until refresh rate finishes
   
         
